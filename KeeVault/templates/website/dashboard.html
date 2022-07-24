@@ -1,0 +1,138 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta content="width=device-width, initial-scale=1.0" name="viewport">
+
+  <title>KeeVault</title>
+  <meta content="" name="description">
+
+  <meta content="" name="keywords">
+
+  <!-- Favicons -->
+  <link href="{% static 'assets/img/favicon.png' %}" rel="icon">
+  <link href="{% static 'assets/img/apple-touch-icon.png' %}" rel="apple-touch-icon">
+
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Nunito:300,300i,400,400i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i" rel="stylesheet">
+
+  <!-- Vendor CSS Files -->
+  <link href="{% static 'assets/vendor/aos/aos.css' %}" rel="stylesheet">
+  <link href="{% static 'assets/vendor/bootstrap/css/bootstrap.min.css' %}" rel="stylesheet">
+  <link href="{% static 'assets/vendor/bootstrap-icons/bootstrap-icons.css' %}" rel="stylesheet">
+  <link href="{% static 'assets/vendor/glightbox/css/glightbox.min.css' %}" rel="stylesheet">
+  <link href="{% static 'assets/vendor/remixicon/remixicon.css' %}" rel="stylesheet">
+  <link href="{% static 'assets/vendor/swiper/swiper-bundle.min.css' %}" rel="stylesheet">
+  <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+
+  <!-- Template Main CSS File -->
+  <link href="{% static 'assets/css/style.css' %}" rel="stylesheet">
+  <link href="{% static 'assets/css/entry_style.css' %}" rel="stylesheet">
+</head>
+
+<body>
+
+  <!-- ======= Header ======= -->
+  <header id="header" class="header fixed-top">
+    <div class="container-fluid container-xl d-flex align-items-center justify-content-between">
+
+      <a href="{%url 'home'%}" class="logo d-flex align-items-center">
+        <img src="{% static 'assets/img/logo.png' %}" alt="">
+        <span>KeeVault</span>
+      </a>
+
+      <nav id="navbar" class="navbar">
+        <ul>
+          <li><a class="nav-link scrollto active" href="{%url 'home'%}">Home</a></li>
+          <li><a class="nav-link scrollto" href="#about">About</a></li>
+          <li><a class="nav-link scrollto" href="#services">Services</a></li>
+          <li><a class="nav-link scrollto" href="{%url 'generator'%}">Password Generator</a></li>
+          <li><a class="getstarted scrollto" href="{%url 'login'%}">Logout</a></li>
+          
+        </ul>
+        <i class="bi bi-list mobile-nav-toggle"></i>
+      </nav><!-- .navbar -->
+
+    </div>
+  </header><!-- End Header -->
+ 
+  <div>
+    {% if messages %}
+      {% for message in messages %}
+        {% if 'log_success' in message.tags %}
+          <br>  <br> <br>
+          <div class="alert alert-success" role="alert"> {{message}} </div>
+         {% endif %}
+      {% endfor %}
+    {% endif %}
+  </div>
+  <br> <br>
+
+  
+  <section id="pricing" class="pricing">
+    <div class="container" data-aos="fade-up">
+      <header class="section-header">
+        <p>Saved Passwords<button class="w3-button w3-circle w3-blue" style="float: right;background-color:#4154f1!important;" onClick="window.location.href='{%url 'new_entry'%}';">+</button></p>
+      </header>
+      <form>
+      <div class="row gy-4" data-aos="fade-left">
+        {% for i in objects %}
+        {% comment %} {% csrf_token %} {% endcomment %}
+        <div class="col-lg-3 col-md-6" data-aos="zoom-in" data-aos-delay="100">
+             <div class="box">
+                <div class="price"><sup>{{i.name}}</sup></div>
+                <img style="width: 75%;height: 75%;"src="https://www.freepnglogos.com/uploads/twitter-logo-png/twitter-bird-symbols-png-logo-0.png" alt="">
+                <ul><li>{{i.login_username}}</li></ul>
+                <a class="btn-buy" id="{{i.id}}" onclick="request_access(this)">View</a>
+                {% comment %} <form action="{% url 'view_details' i.id %}" method="post">
+                  {% csrf_token %}
+                  <button class="btn btn--radius-2 btn--red" type="submit" style="float: right;">View</button>
+                </form> {% endcomment %}
+             </div>
+        </div>
+       {% endfor %}
+      </div>
+      <form>
+    </div>
+  </section><!-- End #main -->
+
+
+  <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
+
+  <!-- Vendor JS Files -->
+  <script src="{% static 'assets/vendor/purecounter/purecounter.js' %}"></script>
+  <script src="{% static 'assets/vendor/aos/aos.js' %}"></script>
+  <script src="{% static 'assets/vendor/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+  <script src="{% static 'assets/vendor/glightbox/js/glightbox.min.js' %}"></script>
+  <script src="{% static 'assets/vendor/isotope-layout/isotope.pkgd.min.js' %}"></script>
+  <script src="{% static 'assets/vendor/swiper/swiper-bundle.min.js' %}"></script>
+  <script src="{% static 'assets/vendor/php-email-form/validate.js' %}"></script>
+  <script src="{% static 'assets/js/index.js' %}"></script>
+
+  <!-- Template Main JS File -->
+  <script src="{% static 'assets/js/main.js' %}"></script>
+  <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+  <script>
+    function request_access($this){
+      console.log("button clicked");
+      var request_data = "entry_"+$this.id;
+      console.log("data: " + request_data);
+      $.ajax({
+          type: "POST",
+          url: "request_access/",
+          data : { request_data: request_data},
+          success : function(json) {
+              $("#request-access").hide();
+              console.log(json);
+          }
+      })
+      window.location.replace("{% url 'view_details' %}");
+    }
+</script>
+
+</body>
+
+</html>

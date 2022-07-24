@@ -1,0 +1,116 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <!-- Required meta tags-->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="Colorlib Templates">
+    <meta name="author" content="Colorlib">
+    <meta name="keywords" content="Colorlib Templates">
+
+    <!-- Title Page-->
+    <title>Au Register Forms by Colorlib</title>
+    <!-- Font special for pages-->
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i,800,800i" rel="stylesheet">
+
+    <!-- Vendor CSS-->
+  <link href="{% static 'assets/vendor/aos/aos.css' %}" rel="stylesheet">
+  <link href="{% static 'assets/vendor/bootstrap/css/bootstrap.min.css' %}" rel="stylesheet">
+  <link href="{% static 'assets/vendor/bootstrap-icons/bootstrap-icons.css' %}" rel="stylesheet">
+  <link href="{% static 'assets/vendor/glightbox/css/glightbox.min.css' %}" rel="stylesheet">
+  <link href="{% static 'assets/vendor/remixicon/remixicon.css' %}" rel="stylesheet">
+  <link href="{% static 'assets/vendor/swiper/swiper-bundle.min.css' %}" rel="stylesheet">
+
+    <!-- Main CSS-->
+    <link href="{% static 'assets/css/entry_style.css' %}" rel="stylesheet" media="all">
+</head>
+
+<body onLoad="noBack();" onpageshow="if (event.persisted) noBack();" onUnload="">
+    
+
+    <div class="bg-modal">
+            <div class="card card-5">
+                <div class="card-heading">
+                    <h2 class="title">{{i.name}} </h2>
+                    <a href={% url 'dashboard' %}><div class="close">+</div></a>
+		            <img src="https://richardmiddleton.me/comic-100.png" alt="">
+                </div>
+                
+                <div class="card-body">
+                    <form>
+                        {% csrf_token %}
+                        <div class="form-row">
+                            <div class="name">Name</div>
+                            <div class="value"><div class="input-group">
+                                    <input class="input--style-5" id="name" type="text" name="name" value={{i.name}} disabled>
+                            </div></div>
+                        </div>
+                        <div class="form-row">
+                            <div class="name">URL</div>
+                            <div class="value"><div class="input-group">
+                                    <input class="input--style-5" id="url" type="text" name="url" value={{i.login_url}} disabled>
+                            </div> </div>
+                        </div>
+                        <div class="form-row m-b-55"><div class="name">Username</div>
+                            <div class="value"><div class="row row-refine"><div class="col-7"><div class="input-group-desc">
+                                            <input class="input--style-5" type="text" name="username" id="uname" value={{i.login_username}} disabled>
+                                    </div></div>
+                                    <div class="col-1"><div class="input-group-desc">
+                                            <button type="button" class="cpy" onclick="copyuFunction()"><span class=" button-text">Copy</span></button>
+                                    </div></div>
+                        </div></div></div>
+                        <div class="form-row m-b-55">
+                            <div class="name">Password</div><div class="value">
+                                <div class="row row-refine"><div class="col-7"><div class="input-group-desc">
+                                            <input class="input--style-5" id="passw" type="text" name="password" value={{i.login_password}} disabled>
+                                </div></div>
+                                    <div class="col-1"><div class="input-group-desc">
+                                            <button type="button" class="cpy" onclick="copyFunction()"><span class=" button-text">Copy</span></button>
+                                    </div></div>
+                                </div></div>
+                        </div>
+                    </form>
+                    <form action="{% url 'delete_entry' i.id %}" method="post">
+                        {% csrf_token %}
+                        <button class="btn btn--radius-2 btn--red" type="submit" style="float: right;">Delete</button>
+                    </form>
+                </div>
+            </div>
+    </div>
+
+    
+
+     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+    <script>
+      var copyText=document.getElementById("passw");
+      function copyFunction() 
+      {
+      copyText = document.getElementById("passw");
+      copyText.disabled=false;
+      copyText.select();
+      copyText.setSelectionRange(0, 99999);
+      copyText.disabled = true;
+      navigator.clipboard.writeText(copyText.value);
+      }
+      function copyuFunction() 
+      {
+      copyText = document.getElementById("uname");
+      copyText.disabled=false;
+      copyText.select();
+      copyText.setSelectionRange(0, 99999);
+      copyText.disabled = true;
+      navigator.clipboard.writeText(copyText.value);
+      }
+    </script>
+    {% comment %} <script type="text/javascript">
+        window.history.forward();
+        function noBack()
+        {
+            window.history.forward();
+        }
+    </script> {% endcomment %}
+</body>
+
+</html>
