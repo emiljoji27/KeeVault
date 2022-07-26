@@ -38,3 +38,4 @@ class PasswordEntryForm(forms.ModelForm):
     class Meta:
         model = PasswordModel
         fields = ['name','login_url','login_username','login_password']
+
