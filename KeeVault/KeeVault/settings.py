@@ -39,7 +39,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'crispy_forms'
+    'crispy_forms',
+    'api',
 ]
 
 MIDDLEWARE = [
@@ -128,6 +129,7 @@ STATICFILES_DIRS = ((os.path.join(BASE_DIR, 'static')), )
 
 
 EMAIL_HOST = 'smtp.mailtrap.io'
-EMAIL_HOST_USER = '37cad1dd05b812'
-EMAIL_HOST_PASSWORD = '602fbb500d46fe'
+EMAIL_HOST_USER = '0d2340a7ebef45'
+EMAIL_HOST_PASSWORD = 'dfbcc3ede09301'
 EMAIL_PORT = '2525'
+#joromo7898@5k2u.com

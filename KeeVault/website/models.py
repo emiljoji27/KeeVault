@@ -14,4 +14,4 @@ class PasswordModel(models.Model):
     def __str__(self):
         return self.name
 
-    
+User._meta.get_field('email')._unique = True

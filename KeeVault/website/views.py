@@ -74,7 +74,7 @@ def register(request):
         form = UserRegisterForm()
     return render(request, 'website/registration.html', {'form': form, 'title':'reqister here'})
 
-@login_required(login_url='login')
+@login_required(login_url='log_in')
 def generator(request):
     return render(request, 'website/generator.html')#, {'password':thepassword, 'selected':selected,'length':length})
 
@@ -87,7 +87,7 @@ def key_gen():
 
     return random_key
 
-@login_required(login_url='login')
+@login_required(login_url='log_in')
 def logout(request):
     auth_logout(request)
     messages.warning(request, f'You have succefully logged out!')
@@ -97,7 +97,7 @@ def dashboard(request):
     ans=return_entries(request.user)
     return render(request,'website/dashboard.html',{'objects':ans})
 
-@login_required(login_url='login')
+@login_required(login_url='log_in')
 def new_entry(request):
    if request.method == 'POST':
        form=PasswordEntryForm(request.POST)
@@ -187,7 +187,7 @@ def password_reset_request(request):
 					}
 					email = render_to_string(email_template_name, c)
 					try:
-						send_mail(subject, email, 'carwarstars@gmail.com' , [user.email], fail_silently=False)
+						send_mail(subject, email, 'keevault-support@gmail.com' , [user.email], fail_silently=False)
 					except BadHeaderError:
 						return HttpResponse('Invalid header found.')
 					return redirect ("/password_reset/done/")
