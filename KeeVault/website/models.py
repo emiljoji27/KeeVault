@@ -10,7 +10,7 @@ class PasswordModel(models.Model):
     login_username = models.CharField(max_length=30, blank=True)
     login_password = models.CharField(max_length=100, blank=True)
     login_url = models.CharField(max_length=30, blank=True)
-    aes_key = models.CharField(max_length=30, blank=True)
+    aes_key = models.CharField(max_length=100, blank=True)
     def __str__(self):
         return self.name
 

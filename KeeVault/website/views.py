@@ -95,6 +95,11 @@ def logout(request):
 
 def dashboard(request):
     ans=return_entries(request.user)
+    key='5Zy0gKVE(@J$GVtZcWilxil^h47&'
+    d=AESCipher(key)
+    for i in ans:
+        e=AESCipher(d._unpad(d.decrypt(i.aes_key)))
+        i.login_password=e._unpad(e.decrypt(i.login_password))
     return render(request,'website/dashboard.html',{'objects':ans})
 
 @login_required(login_url='log_in')
@@ -130,32 +135,6 @@ def return_entries(user):
 
 val=None
 
-@csrf_exempt
-def request_access(request):
-    if request.method=="POST":
-      a = request.POST.get('request_data')
-      a=a.split("_")
-      a=int(a[1])
-      ans= PasswordModel.objects.filter(username=request.user,id=a)
-      global val
-      def val():
-        return ans
-      print(ans)
-      return HttpResponse('ok')
-    else:
-      print("WTF")
-
-
-def view_details(request):
-    ans=val()
-    print(ans)
-    for i in ans:
-        key='5Zy0gKVE(@J$GVtZcWilxil^h47&'
-        d=AESCipher(key)
-        e=AESCipher(d._unpad(d.decrypt(i.aes_key)))
-        i.login_password=e._unpad(e.decrypt(i.login_password))
-        print(i.login_password)
-        return render(request,'website/viewDetails.html',{'i':i})
 
 def anonymous(request):
     return redirect('dashboard')

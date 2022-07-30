@@ -85,11 +85,6 @@
     font-weight: 700;
   }
   
-  .form-row .value {
-    width: -webkit-calc(100% - 125px);
-    width: -moz-calc(100% - 125px);
-    width: calc(100% - 125px);
-  }
   
   @media (max-width: 767px) {
     .form-row {
@@ -734,11 +729,6 @@
     border-top-right-radius: 10px;
   }
   
-  .card-5 .card-body {
-    padding: 52px 85px;
-    padding-bottom: 73px;
-  }
-  
   @media (max-width: 767px) {
     .card-5 .card-body {
       padding: 40px 30px;
@@ -868,3 +858,4 @@
   color: white;
   transform: rotateY(180deg);
 }
+

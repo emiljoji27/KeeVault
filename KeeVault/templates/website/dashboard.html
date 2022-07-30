@@ -27,6 +27,9 @@
   <link href="{% static 'assets/vendor/remixicon/remixicon.css' %}" rel="stylesheet">
   <link href="{% static 'assets/vendor/swiper/swiper-bundle.min.css' %}" rel="stylesheet">
   <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+  <!-- CSS only -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-gH2yIJqKdNHPEq0n4Mqa/HGKIhSkIHeL5AyhkYV8i59U5AR6csBvApHHNl/vI1Bx" crossorigin="anonymous">
+  
 
   <!-- Template Main CSS File -->
   <link href="{% static 'assets/css/style.css' %}" rel="stylesheet">
@@ -86,20 +89,62 @@
                 <div class="price"><sup>{{i.name}}</sup></div>
                 <img style="width: 75%;height: 75%;"src="https://www.freepnglogos.com/uploads/twitter-logo-png/twitter-bird-symbols-png-logo-0.png" alt="">
                 <ul><li>{{i.login_username}}</li></ul>
-                <a class="btn-buy" id="{{i.id}}" onclick="request_access(this)">View</a>
-                {% comment %} <form action="{% url 'view_details' i.id %}" method="post">
-                  {% csrf_token %}
-                  <button class="btn btn--radius-2 btn--red" type="submit" style="float: right;">View</button>
-                </form> {% endcomment %}
+                <a class="btn-buy" data-bs-toggle="modal" href="#exampleModalToggle" role="button" id="{{i.login_url}} {{i.login_username}} {{i.login_password}} {{i.name}}" onclick="request_access(this)">View</a></button>
              </div>
         </div>
        {% endfor %}
       </div>
       <form>
     </div>
+  
+    <div class="modal fade" id="exampleModalToggle" aria-hidden="true" aria-labelledby="exampleModalToggleLabel" tabindex="-1">
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h2 class="modal-title" id="myModalLabel">Password</h2>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            <div class="card card-5">
+              <div class="card-body">
+                  <form>
+                      {% csrf_token %}
+                      <div class="form-row">
+                          <div class="name">Name</div>
+                          <div class="value"><div class="input-group">
+                            <input class="input--style-5" id="display_name" type="text" name="name" disabled>
+                          </div></div>
+                      </div>
+                      <div class="form-row">
+                          <div class="name">URL</div>
+                          <div class="value"><div class="input-group">
+                            <input class="input--style-5" id="display_url" type="text" name="url" disabled>
+                          </div> </div>
+                      </div>
+                      <div class="form-row"><div class="name">Username</div>
+                          <div class="value"><div class="input-group">
+                            <input class="input--style-5" type="text" name="username" id="display_uname" disabled>
+                          </div></div>
+                      </div>
+                      <div class="form-row"><div class="name">Password</div>
+                          <div class="value"><div class="input-group">
+                            <input class="input--style-5" type="text" name="password" id="display_passw" disabled>
+                          </div></div>
+                      </div>
+
+                      <div>
+                        <button type="button" class="cpy" onclick="copyuFunction()"><span class=" button-text">Copy Username</span></button>
+                        <button type="button" class="cpy" onclick="copyFunction()"><span class=" button-text">Copy Password</span></button>
+                      </div>
+                  </form>
+                  
+              </div>
+          </div>
+         </div>
+        </div>
+      </div>
+    </div>
   </section><!-- End #main -->
-
-
   <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
 
   <!-- Vendor JS Files -->
@@ -111,26 +156,46 @@
   <script src="{% static 'assets/vendor/swiper/swiper-bundle.min.js' %}"></script>
   <script src="{% static 'assets/vendor/php-email-form/validate.js' %}"></script>
   <script src="{% static 'assets/js/index.js' %}"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-A3rJD856KowSb7dwlZdYEkO39Gagi7vIsF0jrRAoQmDKKtQBHUuLZ9AsSv4jD4Xa" crossorigin="anonymous"></script>
 
   <!-- Template Main JS File -->
   <script src="{% static 'assets/js/main.js' %}"></script>
   <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
   <script>
     function request_access($this){
-      console.log("button clicked");
-      var request_data = "entry_"+$this.id;
-      console.log("data: " + request_data);
-      $.ajax({
-          type: "POST",
-          url: "request_access/",
-          data : { request_data: request_data},
-          success : function(json) {
-              $("#request-access").hide();
-              console.log(json);
-          }
-      })
-      window.location.replace("{% url 'view_details' %}");
+      var request_data = $this.id;
+      var text = "";
+      const myArray = request_data.split(" ");
+      document.getElementById("display_url").value = myArray[0];
+      document.getElementById("display_uname").value = myArray[1];
+      document.getElementById("display_passw").value = myArray[2];
+      for (let i = 3; i < myArray.length; i++) {
+        text += myArray[i]+" ";
+      }
+      document.getElementById("display_name").value = text;
+      document.getElementById("myModalLabel").innerHTML = text;
     }
+</script>
+<script>
+  var copyText=document.getElementById("passw");
+  function copyFunction() 
+  {
+  copyText = document.getElementById("display_passw");
+  copyText.disabled=false;
+  copyText.select();
+  copyText.setSelectionRange(0, 99999);
+  copyText.disabled = true;
+  navigator.clipboard.writeText(copyText.value);
+  }
+  function copyuFunction() 
+  {
+  copyText = document.getElementById("display_uname");
+  copyText.disabled=false;
+  copyText.select();
+  copyText.setSelectionRange(0, 99999);
+  copyText.disabled = true;
+  navigator.clipboard.writeText(copyText.value);
+  }
 </script>
 
 </body>
