@@ -36,6 +36,18 @@ from django.utils.http import urlsafe_base64_encode
 from django.contrib.auth.tokens import default_token_generator
 from django.utils.encoding import force_bytes
 
+logo_url={
+    'google':'https://www.freepnglogos.com/uploads/google-logo-png/google-logo-png-suite-everything-you-need-know-about-google-newest-0.png',
+    'twitter':'https://www.freepnglogos.com/uploads/twitter-logo-png/twitter-bird-symbols-png-logo-0.png',
+    'spotify':'https://www.freepnglogos.com/uploads/spotify-logo-png/spotify-icon-marilyn-scott-0.png',
+    'instagram':'https://www.freepnglogos.com/uploads/pics-photos-instagram-logo-png-4.png',
+    'netflix':'https://www.freepnglogos.com/uploads/netflix-logo-app-png-16.png',
+    'snapchat':'https://www.freepnglogos.com/uploads/snapchat-logo-png-0.png'
+}
+
+
+
+
 def index(request):
     return render(request,'website/index.html')
 
@@ -95,11 +107,15 @@ def logout(request):
 
 def dashboard(request):
     ans=return_entries(request.user)
+    key_list=logo_url.keys()
     key='5Zy0gKVE(@J$GVtZcWilxil^h47&'
     d=AESCipher(key)
     for i in ans:
         e=AESCipher(d._unpad(d.decrypt(i.aes_key)))
         i.login_password=e._unpad(e.decrypt(i.login_password))
+        for j in key_list:
+           if j in i.login_url.split('.'):
+              i.img_url=logo_url[j]
     return render(request,'website/dashboard.html',{'objects':ans})
 
 @login_required(login_url='log_in')
@@ -120,8 +136,7 @@ def new_entry(request):
             f.login_password=d.encrypt(d._pad(login_pass))
             e=AESCipher(key)
             f.aes_key=e.encrypt(e._pad(key_new))
-            print(f.aes_key)
-            print(f.login_password)
+            f.img_url='https://www.survivorsuk.org/wp-content/uploads/2017/01/no-image.jpg'
             f.save()
             messages.success(request, f'You have succefully made a post!')
             return redirect('dashboard')

@@ -27,6 +27,7 @@
   <link href="{% static 'assets/vendor/remixicon/remixicon.css' %}" rel="stylesheet">
   <link href="{% static 'assets/vendor/swiper/swiper-bundle.min.css' %}" rel="stylesheet">
   <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
   <!-- CSS only -->
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-gH2yIJqKdNHPEq0n4Mqa/HGKIhSkIHeL5AyhkYV8i59U5AR6csBvApHHNl/vI1Bx" crossorigin="anonymous">
   
@@ -80,21 +81,24 @@
       <header class="section-header">
         <p>Saved Passwords<button class="w3-button w3-circle w3-blue" style="float: right;background-color:#4154f1!important;" onClick="window.location.href='{%url 'new_entry'%}';">+</button></p>
       </header>
-      <form>
       <div class="row gy-4" data-aos="fade-left">
         {% for i in objects %}
-        {% comment %} {% csrf_token %} {% endcomment %}
         <div class="col-lg-3 col-md-6" data-aos="zoom-in" data-aos-delay="100">
              <div class="box">
+                <form action="{% url 'delete_entry' i.id %}" method="post">
+                  {% csrf_token %}
+                  <button type="submit" class="btn btn-danger btn-sm" style="border-radius: 50%;padding-right: 20px;padding-left: 20px;float:right;"><i class="fa fa-trash"></i></button>
+                </form>
                 <div class="price"><sup>{{i.name}}</sup></div>
-                <img style="width: 75%;height: 75%;"src="https://www.freepnglogos.com/uploads/twitter-logo-png/twitter-bird-symbols-png-logo-0.png" alt="">
+                <img style="width: 75%;height: 75%;"src={{i.img_url}} alt="">
                 <ul><li>{{i.login_username}}</li></ul>
-                <a class="btn-buy" data-bs-toggle="modal" href="#exampleModalToggle" role="button" id="{{i.login_url}} {{i.login_username}} {{i.login_password}} {{i.name}}" onclick="request_access(this)">View</a></button>
-             </div>
+                <div>
+                  <a class="btn-buy" data-bs-toggle="modal" href="#exampleModalToggle" role="button" id="{{i.login_url}} {{i.login_username}} {{i.login_password}} {{i.name}}" onclick="request_access(this)">View</a></button>
+              </div>
+              </div>
         </div>
        {% endfor %}
       </div>
-      <form>
     </div>
   
     <div class="modal fade" id="exampleModalToggle" aria-hidden="true" aria-labelledby="exampleModalToggleLabel" tabindex="-1">
@@ -155,48 +159,13 @@
   <script src="{% static 'assets/vendor/isotope-layout/isotope.pkgd.min.js' %}"></script>
   <script src="{% static 'assets/vendor/swiper/swiper-bundle.min.js' %}"></script>
   <script src="{% static 'assets/vendor/php-email-form/validate.js' %}"></script>
-  <script src="{% static 'assets/js/index.js' %}"></script>
+  
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-A3rJD856KowSb7dwlZdYEkO39Gagi7vIsF0jrRAoQmDKKtQBHUuLZ9AsSv4jD4Xa" crossorigin="anonymous"></script>
 
   <!-- Template Main JS File -->
   <script src="{% static 'assets/js/main.js' %}"></script>
+  <script src="{% static 'assets/js/dashboard.js' %}"></script>
   <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
-  <script>
-    function request_access($this){
-      var request_data = $this.id;
-      var text = "";
-      const myArray = request_data.split(" ");
-      document.getElementById("display_url").value = myArray[0];
-      document.getElementById("display_uname").value = myArray[1];
-      document.getElementById("display_passw").value = myArray[2];
-      for (let i = 3; i < myArray.length; i++) {
-        text += myArray[i]+" ";
-      }
-      document.getElementById("display_name").value = text;
-      document.getElementById("myModalLabel").innerHTML = text;
-    }
-</script>
-<script>
-  var copyText=document.getElementById("passw");
-  function copyFunction() 
-  {
-  copyText = document.getElementById("display_passw");
-  copyText.disabled=false;
-  copyText.select();
-  copyText.setSelectionRange(0, 99999);
-  copyText.disabled = true;
-  navigator.clipboard.writeText(copyText.value);
-  }
-  function copyuFunction() 
-  {
-  copyText = document.getElementById("display_uname");
-  copyText.disabled=false;
-  copyText.select();
-  copyText.setSelectionRange(0, 99999);
-  copyText.disabled = true;
-  navigator.clipboard.writeText(copyText.value);
-  }
-</script>
 
 </body>
 
