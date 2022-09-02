@@ -135,3 +135,5 @@ EMAIL_PORT = '2525'
 #joromo7898@5k2u.com
 import django_heroku
 django_heroku.settings(locals())
+
+CSRF_TRUSTED_ORIGINS = ["https://keevault.herokuapp.com"]
