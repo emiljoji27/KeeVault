@@ -1,0 +1,9 @@
+{% if messages %}
+    {% for message in messages %}
+        {% if 'cred_error' in message.tags %}
+        <div class="alert alert-warning" role="alert">
+            {{message}}
+        </div>
+        {% endif %}
+    {% endfor %}
+{% endif %}
