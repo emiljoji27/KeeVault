@@ -21,7 +21,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/4.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-#SECRET_KEY = 'django-insecure-@!5v7ru#a6qp%+ukbh%c72$yd(qw6tz&3c4*=a))=b8v6wiiuh'
+SECRET_KEY = 'django-insecure-@!5v7ru#a6qp%+ukbh%c72$yd(qw6tz&3c4*=a))=b8v6wiiuh'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -41,7 +41,11 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'crispy_forms',
     'api',
+    'django_restframework',
+    'rest_framework',
+    'rest_framework.authtoken'
 ]
+
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -137,3 +141,20 @@ import django_heroku
 django_heroku.settings(locals())
 
 CSRF_TRUSTED_ORIGINS = ["https://keevault.herokuapp.com"]
+
+auth_classes=[
+    "rest_framework.authentication.SessionAuthentication",
+    "api.authentication.TokenAuthentication"
+]
+
+# if DEBUG:
+#     auth_classes=[
+#         "api.authentication.TokenAuthentication"
+#     ]
+
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': auth_classes,
+    # 'DEFAULT_PERMISSION_CLASSES': [
+    #     'rest_framework.permissions.IsAuthenticatedOrReadOnly',
+    # ],
+}

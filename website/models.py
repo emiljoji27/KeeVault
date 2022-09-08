@@ -16,3 +16,11 @@ class PasswordModel(models.Model):
         return self.name
 
 User._meta.get_field('email')._unique = True
+
+class Notes(models.Model):
+    title=models.CharField(max_length=100,unique=True)
+    content=models.TextField(blank=True,null=True)
+
+    @property
+    def note_length(self):
+        return 100

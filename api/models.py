@@ -1,3 +1,4 @@
 from django.db import models
+from website.models import PasswordModel
 
-# Create your models here.
+

@@ -1,6 +1,36 @@
 from django.contrib.auth.models import User
 from rest_framework import serializers
 from rest_framework.validators import UniqueTogetherValidator
+from website.models import Notes, PasswordModel
+
+
+
+class NoteSerializer(serializers.ModelSerializer):
+    class Meta:
+        model=Notes
+        fields=['title','content','note_length']
+    
+    def get_length_of_note(self,obj):
+        return obj.note_length()
+
+
+class PasswordSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = PasswordModel
+        fields = (
+            'id',
+            'name',
+            'login_username',
+            'login_password',
+            'login_url',
+            'aes_key',
+            'img_url',
+        )
+
+from django.contrib.auth.models import User
+from rest_framework import serializers
+from rest_framework.validators import UniqueTogetherValidator
+
 
 class UserSerializer(serializers.ModelSerializer):
 
@@ -12,8 +42,6 @@ class UserSerializer(serializers.ModelSerializer):
         model = User
         fields = (
             'username',
-            'first_name',
-            'last_name',
             'email',
             'password',
         )
@@ -23,3 +51,4 @@ class UserSerializer(serializers.ModelSerializer):
                 fields=['username', 'email']
             )
         ]
+

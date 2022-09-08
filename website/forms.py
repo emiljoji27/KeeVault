@@ -1,7 +1,5 @@
-#from asyncio.windows_events import NULL
 from pickle import FALSE
 from django import forms
-# from .models import PostsCreation
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm
 from django import forms

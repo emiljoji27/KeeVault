@@ -1,11 +1,5 @@
-#from asyncio.windows_events import NULL
-import json
-from logging.config import valid_ident
 import random
-from urllib import response
-from django.conf import settings
-from django.forms import Form
-from django.http import HttpResponse, HttpResponseRedirect
+from django.http import HttpResponse
 from django.shortcuts import render
 from django.contrib import messages
 from django.shortcuts import render, redirect
@@ -15,14 +9,10 @@ from django.contrib.auth import login as auth_login
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import AuthenticationForm
 from django.core.mail import send_mail
-from django.core.mail import EmailMultiAlternatives
-from django.template.loader import get_template
-from django.template import Context
 from django.contrib.auth import logout as auth_logout
 from django.shortcuts import redirect
 from django.contrib.auth.models import User
 from .models import PasswordModel
-from django.views.decorators.csrf import csrf_exempt
 from .forms import PasswordEntryForm, UserRegisterForm
 from .aes import *
 from django.shortcuts import render, redirect
@@ -35,6 +25,7 @@ from django.db.models.query_utils import Q
 from django.utils.http import urlsafe_base64_encode
 from django.contrib.auth.tokens import default_token_generator
 from django.utils.encoding import force_bytes
+
 
 logo_url={
     'google':'https://www.freepnglogos.com/uploads/google-logo-png/google-logo-png-suite-everything-you-need-know-about-google-newest-0.png',
