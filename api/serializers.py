@@ -2,6 +2,9 @@ from django.contrib.auth.models import User
 from rest_framework import serializers
 from rest_framework.validators import UniqueTogetherValidator
 from website.models import Notes, PasswordModel
+from django.contrib.auth.models import User
+from rest_framework import serializers
+from rest_framework.validators import UniqueTogetherValidator
 
 
 
@@ -27,10 +30,6 @@ class PasswordSerializer(serializers.ModelSerializer):
             'img_url',
         )
 
-from django.contrib.auth.models import User
-from rest_framework import serializers
-from rest_framework.validators import UniqueTogetherValidator
-
 
 class UserSerializer(serializers.ModelSerializer):
 
@@ -51,4 +50,3 @@ class UserSerializer(serializers.ModelSerializer):
                 fields=['username', 'email']
             )
         ]
-

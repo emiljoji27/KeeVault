@@ -35,9 +35,7 @@ class UserRecordView(APIView):
 
     def get(self, format=None):
         users = User.objects.all()
-        print(users)
         serializer = UserSerializer(users, many=True)
-        print(serializer)
         return Response(serializer.data)
 
     def post(self, request):
@@ -79,7 +77,7 @@ class PasswordView(APIView):
               if j in login_url.split('.'):
                  i['img_url']=logo_url[j]
 
-        return Response(data )      
+        return Response(data)      
 
 
     def post(self, request):

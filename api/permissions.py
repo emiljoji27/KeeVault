@@ -8,6 +8,3 @@ class IsStaffEditorPermission(permissions.DjangoModelPermissions):
         if not request.user.is_authenticated:
             return False
         return super().has_permission(request, view)
-
-
-

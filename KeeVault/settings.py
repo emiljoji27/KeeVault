@@ -131,12 +131,14 @@ STATIC_URL = 'static/'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 STATICFILES_DIRS = ((os.path.join(BASE_DIR, 'static')), )
 
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp-mail.outlook.com'
+EMAIL_HOST_USER = 'keevault@outlook.com'
+EMAIL_HOST_PASSWORD = 'Lrfj4Nxtg9TGr7k'
+EMAIL_PORT = '587'
+EMAIL_USE_TLS = True
 
-EMAIL_HOST = 'smtp.mailtrap.io'
-EMAIL_HOST_USER = '0d2340a7ebef45'
-EMAIL_HOST_PASSWORD = 'dfbcc3ede09301'
-EMAIL_PORT = '2525'
-#joromo7898@5k2u.com
+
 import django_heroku
 django_heroku.settings(locals())
 
