@@ -95,22 +95,9 @@ def logout(request):
     messages.warning(request, f'You have succefully logged out!')
     return redirect('home')
 
-def dashboard(request):
-    ans=return_entries(request.user)
-    key_list=logo_url.keys()
-    key='5Zy0gKVE(@J$GVtZcWilxil^h47&'
-    d=AESCipher(key)
-    for i in ans:
-        e=AESCipher(d._unpad(d.decrypt(i.aes_key)))
-        i.login_password=e._unpad(e.decrypt(i.login_password))
-        for j in key_list:
-           if j in i.login_url.split('.'):
-              i.img_url=logo_url[j]
-    return render(request,'website/dashboard.html',{'objects':ans})
-
 @login_required(login_url='log_in')
-def new_entry(request):
-   if request.method == 'POST':
+def dashboard(request):
+    if request.method == 'POST':
        form=PasswordEntryForm(request.POST)
        if form.is_valid():
             f = form.save(commit=False)
@@ -130,9 +117,18 @@ def new_entry(request):
             f.save()
             messages.success(request, f'You have succefully made a post!')
             return redirect('dashboard')
+    ans=return_entries(request.user)
+    key_list=logo_url.keys()
+    key='5Zy0gKVE(@J$GVtZcWilxil^h47&'
+    d=AESCipher(key)
+    for i in ans:
+        e=AESCipher(d._unpad(d.decrypt(i.aes_key)))
+        i.login_password=e._unpad(e.decrypt(i.login_password))
+        for j in key_list:
+           if j in i.login_url.split('.'):
+              i.img_url=logo_url[j]
+    return render(request,'website/dashboard.html',{'objects':ans})
 
-
-   return render(request,'website/newEntry.html')  
 
 def return_entries(user):
     return PasswordModel.objects.filter(username=user)

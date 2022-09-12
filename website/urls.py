@@ -9,7 +9,6 @@ urlpatterns = [
     path('logout/',views.logout,name='log_out'),
     path('generator/',views.generator,name='generator'),
     path('dashboard/',views.dashboard,name='dashboard'),
-    path('new_entry/',views.new_entry,name='new_entry'),
     path('view_details/',views.anonymous,name='anony'),
     re_path(r'^delete/(?P<pk>[0-9]+)/$',views.delete_entry,name='delete_entry'),
     path("password_reset/", views.password_reset_request, name='password__reset'),   

@@ -79,7 +79,7 @@
   <section id="pricing" class="pricing">
     <div class="container" data-aos="fade-up">
       <header class="section-header">
-        <p>Saved Passwords<button class="w3-button w3-circle w3-blue" style="float: right;background-color:#4154f1!important;" onClick="window.location.href='{%url 'new_entry'%}';">+</button></p>
+        <p>Saved Passwords<button class="w3-button w3-circle w3-blue" style="float: right;background-color:#4154f1!important;" type="button" data-bs-toggle="modal" href="#passwordentryform" role="button">+</button></p>
       </header>
       <div class="row gy-4" data-aos="fade-left">
         {% for i in objects %}
@@ -148,7 +148,51 @@
         </div>
       </div>
     </div>
-  </section><!-- End #main -->
+
+    <div class="modal fade" id="passwordentryform" aria-hidden="true" aria-labelledby="passwordentryform" tabindex="-1">
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h2 class="modal-title" id="myModalLabel" style="text-aligncenter;" >Password Entry</h2>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            <div class="card card-5">
+              <div class="card-body">
+                <form method="POST">
+                  {% csrf_token%}
+                  <br>
+                  <div class="form-group">
+                    <label for="email1">Name</label>
+                    <input class="form-control" id="email1" type="text" name="name"placeholder="Enter name for the entry">
+                  </div>
+                  <br>
+                  <div class="form-group">
+                    <label for="email1">URL</label>
+                    <input class="form-control" id="email1" type="text" name="url"placeholder="Enter url/service">
+                  </div>
+                  <br>
+                  <div class="form-group">
+                    <label for="email1">Username</label>
+                    <input class="form-control" id="email1" type="text" name="username" placeholder="Enter username">
+                  </div>
+                  <br>
+                  <div class="form-group">
+                    <label for="password1">Password</label>
+                    <input type="password" class="form-control" id="password1" placeholder="Enter password" name="password">
+                  </div>
+                  <div class="modal-footer border-top-0 d-flex justify-content-center">
+                    <button type="submit" class="btn btn-primary">Submit</button>
+                  </div>
+              </form>
+                  
+              </div>
+          </div>
+         </div>
+        </div>
+      </div>
+    </div>
+ </section><!-- End #main -->
   <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
 
   <!-- Vendor JS Files -->
