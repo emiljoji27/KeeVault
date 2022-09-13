@@ -1,3 +1,4 @@
+from sqlite3 import IntegrityError
 from api.serializers import PasswordSerializer
 from website.aes import *
 from website.models import Notes, PasswordModel
@@ -28,23 +29,35 @@ logo_url={
     'snapchat':'https://www.freepnglogos.com/uploads/snapchat-logo-png-0.png'
 }
 
+class UserDetailsView(APIView):
+    permission_classes=[IsAuthenticated]
 
+    def get(self, format=None):
+        user=self.request.user
+        users = User.objects.filter(username=user)
+        serializer = UserSerializer(users, many=True)
+        return Response(serializer.data)
 
 class UserRecordView(APIView):
     #permission_classes = [IsAdminUser]
 
-    def get(self, format=None):
-        users = User.objects.all()
-        serializer = UserSerializer(users, many=True)
-        return Response(serializer.data)
-
     def post(self, request):
+        print(request.data)
         serializer = UserSerializer(data=request.data)
         if serializer.is_valid(raise_exception=ValueError):
+          try:
             serializer.create(validated_data=request.data)
             return Response(
                 serializer.data,
                 status=status.HTTP_201_CREATED
+            )
+          except Exception as e:
+            return Response(
+            {
+                "error": True,
+                "error_msg": str(e)
+            },
+            status=status.HTTP_400_BAD_REQUEST
             )
         return Response(
             {

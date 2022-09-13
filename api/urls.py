@@ -9,6 +9,7 @@ app_name = 'api'
 urlpatterns = [
     path('auth/',obtain_auth_token),
     path('user/',views.UserRecordView.as_view(), name='users'),
+    path('user_details/',views.UserDetailsView.as_view()),
     path('details/',views.PasswordView.as_view()),
     path('<int:pk>/delete/',views.PasswordDeleteAPIView.as_view())
 
